@@ -9,7 +9,7 @@ function CLASS(elem) {
 }
 
 function QS(elem) {
-    return document.getElementsByTagName(elem);
+    return document.querySelectorAll(elem);
 }
 
 var txt = "";
@@ -31,23 +31,22 @@ function init() {
 
     muvjelek();
 }
-
+//event.target ===> esemény kiváltó elem!!
 function megjelenit() {
     var szam = event.target.innerHTML;
     CLASS("kifejezes")[0].innerHTML += szam;
-    valtozo += szam;
     console.log(szam);
     
 }
 
 function jelMegjelenit() {
     var jel = event.target.innerHTML;
+    muvjel = jel;
     /*var txt = `<span class="kifejezes"></span><span class="eredmeny"></span>`;
     console.log(txt)
     console.log(CLASS("kifejezes")[0].innerHTML)*/
-    if (!CLASS("kifejezes")[0].innerHTML == "") {
+    if (!CLASS("kifejezes")[0].innerHTML == "") { /*ha ne üres a kifejezés!*/
         CLASS("kifejezes")[0].innerHTML += jel;
-        valtozo += jel;
     }
 }
 
@@ -58,21 +57,40 @@ function muvjelek() {
     ID("szorzas").addEventListener("click", jelMegjelenit);
     ID("osztas").addEventListener("click", jelMegjelenit);
     ID(".").addEventListener("click", jelMegjelenit);
-    ID("egyenlo").addEventListener("click", jelMegjelenit);
+/*  ID("egyenlo").addEventListener("click", jelMegjelenit);*/
     ID("egyenlo").addEventListener("click", szamol);
     ID("torles").addEventListener("click", torles);
     
 }
 
 function torles() {
-    CLASS("kijelzo")[0].innerHTML = 
+    CLASS("kijelzes")[0].innerHTML = 
     `<span class="kifejezes"></span>
     <span class="eredmeny"></span>`;
-    valtozo = "";
 }
 
 function szamol() {
-    tomb=valtozo.split(muvjel);
+    var eredmeny=0;
+    var kif=CLASS("kifejezes")[0].innerHTML;
+    console.log(kif);
+    tomb=kif.split(muvjel); //műveleti jeleknél szétdarabolja
     console.log(tomb);
     console.log(muvjel);
+    switch (muvjel) {
+        case '+':
+            eredmeny=Number(tomb[0])+Number(tomb[1]);
+            break;
+        case '-':
+            eredmeny=Number(tomb[0])-Number(tomb[1]);
+            break;
+        case '*':
+            eredmeny=Number(tomb[0])*Number(tomb[1]);
+            break;
+        case '/':
+            eredmeny=Number(tomb[0])/Number(tomb[1]);
+            break;
+        default:
+            break;
+    }
+    CLASS("kifejezes")[0].innerHTML=eredmeny;
 }
